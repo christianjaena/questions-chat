@@ -19,6 +19,11 @@
 				background-color: #4064ac;
 			}
 
+			.user {
+				text-align: center;
+				color: white;
+			}
+
 			#form {
 				background: rgba(0, 0, 0, 0.15);
 				padding: 0.25rem;
@@ -105,7 +110,11 @@
 			})
 
 			socket.on('user', userName => {
-				alert(`${userName} has entered the chat`)
+				var item = document.createElement('li')
+				item.innerHTML += `<strong>${userName}</strong> has entered the chat.`
+				item.setAttribute('class', 'user')
+				messages.appendChild(item)
+				window.scrollTo(0, document.body.scrollHeight)
 			})
 
 			socket.on('question', question => {
