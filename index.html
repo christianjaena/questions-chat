@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Test Chat</title>
+		<title>Questions Chat</title>
 		<style>
 			body {
 				margin: 0;
@@ -111,6 +111,10 @@
 				item.setAttribute("class", "question")
 				messages.appendChild(item)
 				window.scrollTo(0, document.body.scrollHeight)
+			})
+
+			socket.on('disconnection', () => {
+				alert(`${userName} disconnected`)
 			})
 		</script>
 	</body>

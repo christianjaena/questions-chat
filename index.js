@@ -20,7 +20,7 @@ function getQuestion() {
 
 io.on('connection', socket => {
 	socket.on('disconnect', () => {
-		console.log('user disconnected')
+		io.emit('disconnection')
 	})
 
 	socket.on('chat message', msg => {
@@ -38,6 +38,7 @@ io.on('connection', socket => {
 			io.emit('question', "No questions left")
 		}
 	})
+
 })
 
 http.listen(PORT, () => {
