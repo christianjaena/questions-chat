@@ -19,9 +19,6 @@ function getQuestion() {
 }
 
 io.on('connection', socket => {
-	socket.on('disconnect', () => {
-		io.emit('disconnection')
-	})
 
 	socket.on('chat message', msg => {
 		io.emit('chat message', msg)

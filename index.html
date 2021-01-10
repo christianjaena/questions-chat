@@ -10,10 +10,13 @@
 				padding-bottom: 3rem;
 				font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
 					Helvetica, Arial, sans-serif;
+				background-color: #18181b;
+				color: white;
 			}
 
 			.question {
 				text-align: center;
+				background-color: #4064ac;
 			}
 
 			#form {
@@ -34,6 +37,9 @@
 				flex-grow: 1;
 				border-radius: 2rem;
 				margin: 0.25rem;
+				background-color: black;
+				color: white;
+				border: 2px solid #4064ac;
 			}
 			#input:focus {
 				outline: none;
@@ -55,9 +61,6 @@
 			}
 			#messages > li {
 				padding: 0.5rem 1rem;
-			}
-			#messages > li:nth-child(odd) {
-				background: #efefef;
 			}
 		</style>
 	</head>
@@ -96,7 +99,7 @@
 
 			socket.on('chat message', msg => {
 				var item = document.createElement('li')
-				item.textContent = `${msg.userName}: ${msg.message}`
+				item.innerHTML += `<strong>${msg.userName}</strong>:  ${msg.message}`
 				messages.appendChild(item)
 				window.scrollTo(0, document.body.scrollHeight)
 			})
@@ -107,14 +110,10 @@
 
 			socket.on('question', question => {
 				var item = document.createElement('li')
-				item.textContent = question
-				item.setAttribute("class", "question")
+				item.innerHTML += `<strong>${question}</strong>`
+				item.setAttribute('class', 'question')
 				messages.appendChild(item)
 				window.scrollTo(0, document.body.scrollHeight)
-			})
-
-			socket.on('disconnection', () => {
-				alert(`${userName} disconnected`)
 			})
 		</script>
 	</body>
