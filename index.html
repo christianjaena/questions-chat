@@ -210,7 +210,7 @@
 
 			emoticons.forEach((emoticon, idx) => {
 				emoticon.addEventListener('click', () => {
-					socket.emit('emote', idx+1)
+					socket.emit('emote', {userName, index: idx+1})
 				})
 			})
 
@@ -269,7 +269,7 @@
 
 			socket.on('img', emote => {
 				var item = document.createElement('li')
-				item.innerHTML += `<img src="${emote}.png" />`
+				item.innerHTML += `<strong>${emote.userName}</strong>: <img src="${emote.index}.png" />`
 				messages.appendChild(item)
 				window.scrollTo(0, document.body.scrollHeight)
 			})
