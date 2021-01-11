@@ -73,7 +73,9 @@
 		<ul id="messages"></ul>
 		<form id="form" action="">
 			<button id="button">Ask!</button>
-			<input id="input" autocomplete="off" /><button>Send</button>
+			<input id="input" autocomplete="off" />
+			<button id="emote">Emote</button>
+			<button>Send</button>
 		</form>
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
@@ -88,6 +90,7 @@
 			var form = document.getElementById('form')
 			var input = document.getElementById('input')
 			var button = document.getElementById('button')
+			var emote = document.getElementById('emote')
 
 			form.addEventListener('submit', e => {
 				e.preventDefault()
@@ -100,6 +103,11 @@
 			button.addEventListener('click', e => {
 				e.preventDefault()
 				socket.emit('question')
+			})
+
+			emote.addEventListener('click', e => {
+				e.preventDefault()
+				socket.emit('emote', 'nini')
 			})
 
 			socket.on('chat message', msg => {
@@ -121,6 +129,21 @@
 				var item = document.createElement('li')
 				item.innerHTML += `<strong>${question}</strong>`
 				item.setAttribute('class', 'question')
+				messages.appendChild(item)
+				window.scrollTo(0, document.body.scrollHeight)
+			})
+
+			socket.on('disconnection', userName => {
+				var item = document.createElement('li')
+				item.innerHTML += `<strong>${userName}</strong> has left the chat.`
+				item.setAttribute('class', 'user')
+				messages.appendChild(item)
+				window.scrollTo(0, document.body.scrollHeight)
+			})
+
+			socket.on('img', emote => {
+				var item = document.createElement('li')
+				item.innerHTML += `<img src="${emote}.png" />`
 				messages.appendChild(item)
 				window.scrollTo(0, document.body.scrollHeight)
 			})
