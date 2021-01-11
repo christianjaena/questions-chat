@@ -14,6 +14,20 @@
 				color: white;
 			}
 
+			button {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+
+			#ask {
+				width: minmax(15%, 100px);
+			}
+
+			#emote {
+				width: minmax(15%, 100px);
+			}
+
 			.question {
 				text-align: center;
 				background-color: #4064ac;
@@ -22,6 +36,19 @@
 			.user {
 				text-align: center;
 				color: white;
+			}
+
+			#emotes {
+				background-color: #0E0E10;
+				height: 20rem;
+				position: fixed;
+				bottom: 0;
+				right: 0;
+				border-radius: 15px;
+				margin-right: 15px;
+				overflow-y: scroll;
+				width: 70%;
+				display: none;
 			}
 
 			#form {
@@ -36,20 +63,37 @@
 				box-sizing: border-box;
 				backdrop-filter: blur(10px);
 			}
+
 			#input {
 				border: none;
 				padding: 0 1rem;
-				flex-grow: 1;
 				border-radius: 2rem;
 				margin: 0.25rem;
 				background-color: black;
 				color: white;
 				border: 2px solid #4064ac;
+				width: 100%;
 			}
+
 			#input:focus {
 				outline: none;
 			}
+
 			#form > button {
+				background: #4064ac;
+				border: none;
+				padding: 0 1rem;
+				margin: 0.25rem;
+				border-radius: 3px;
+				outline: none;
+				color: #fff;
+			}
+
+			#form > span {
+				display: flex;
+			}
+
+			#form > span > button {
 				background: #4064ac;
 				border: none;
 				padding: 0 1rem;
@@ -67,15 +111,27 @@
 			#messages > li {
 				padding: 0.5rem 1rem;
 			}
+
 		</style>
 	</head>
 	<body>
 		<ul id="messages"></ul>
+		<div id="emotes">
+			<img src="/images/1.png" alt="">
+			<img src="/images/2.png" alt="">
+		</div>
 		<form id="form" action="">
-			<button id="button">Ask!</button>
-			<input id="input" autocomplete="off" />
-			<button id="emote">Emote</button>
-			<button>Send</button>
+			<button id="ask">
+				<img src="./live_help-white-18dp.svg" alt="ask">
+			</button>
+			<input id="input" autocomplete="off"> 
+			</input>
+				<button id="emote">
+					<img src="./insert_emoticon-white-18dp.svg" alt="emote"/>
+				</button>
+				<button>
+					<img id="send" src="./send-white-18dp.svg" alt="send" />
+				</button>
 		</form>
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
@@ -89,8 +145,12 @@
 
 			var form = document.getElementById('form')
 			var input = document.getElementById('input')
-			var button = document.getElementById('button')
+			var ask = document.getElementById('ask')
 			var emote = document.getElementById('emote')
+			var emotes = document.getElementById('emotes')
+
+			emotes.addEventListener('click', () => {
+			})
 
 			form.addEventListener('submit', e => {
 				e.preventDefault()
@@ -100,14 +160,19 @@
 				}
 			})
 
-			button.addEventListener('click', e => {
+			ask.addEventListener('click', e => {
 				e.preventDefault()
 				socket.emit('question')
 			})
 
 			emote.addEventListener('click', e => {
-				e.preventDefault()
-				socket.emit('emote', 'nini')
+				if (emotes.style.display === "block") {
+					emotes.style.display = 'none'
+				} else {
+					emotes.style.display = 'block'
+				}
+				// e.preventDefault()
+				// socket.emit('emote', 'nini')
 			})
 
 			socket.on('chat message', msg => {

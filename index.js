@@ -2,12 +2,10 @@ const express = require('express')
 const app = express()
 const http = require('http').Server(app)
 const io = require('socket.io')(http)
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 3000
 const questions = require('./questions')
-const fs = require('fs')
-const path = require('path')
-const { reduce } = require('./questions')
 
+app.use(express.static('./images'))
 app.use(express.static('./'))
 app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/index.html')
