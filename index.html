@@ -30,7 +30,9 @@
 
 			.question {
 				text-align: center;
-				background-color: #4064ac;
+				background-color: #F7A5B9;
+				color: black;
+				border-bottom: 2px solid black;
 			}
 
 			.user {
@@ -49,6 +51,7 @@
 				overflow-y: scroll;
 				width: 70%;
 				display: none;
+
 			}
 
 			#form {
@@ -71,7 +74,7 @@
 				margin: 0.25rem;
 				background-color: black;
 				color: white;
-				border: 2px solid #4064ac;
+				border: 2px solid #F7A5B9;
 				width: 100%;
 			}
 
@@ -80,7 +83,7 @@
 			}
 
 			#form > button {
-				background: #4064ac;
+				background:#F7A5B9;
 				border: none;
 				padding: 0 1rem;
 				margin: 0.25rem;
@@ -93,16 +96,6 @@
 				display: flex;
 			}
 
-			#form > span > button {
-				background: #4064ac;
-				border: none;
-				padding: 0 1rem;
-				margin: 0.25rem;
-				border-radius: 3px;
-				outline: none;
-				color: #fff;
-			}
-
 			#messages {
 				list-style-type: none;
 				margin: 0;
@@ -112,25 +105,90 @@
 				padding: 0.5rem 1rem;
 			}
 
+			#grid {
+				display: grid;
+				grid-template-columns: repeat(4, 1fr);
+				grid-template-rows: repeat(4, 1fr);
+				padding: 15px;
+
+			}
+
+			#grid > div {
+				height: 60px;
+				width: 60px;
+			}
+
+			.emoticon {
+				height: 50px;
+				width: 50px;
+			}
 		</style>
 	</head>
 	<body>
 		<ul id="messages"></ul>
 		<div id="emotes">
-			<img src="/images/1.png" alt="">
-			<img src="/images/2.png" alt="">
+			<div id="grid">
+			<div>
+				<img class="emoticon" src="/images/1.png"/>
+			</div>
+			<div>
+				<img class="emoticon" src="/images/2.png"/>
+			</div>
+			<div>
+				<img class="emoticon" src="/images/3.png"/>
+			</div>
+			<div>
+				<img class="emoticon"src="/images/4.png"/>
+			</div>
+			<div>
+				<img class="emoticon"src="/images/5.png"/>
+			</div>
+			<div>
+				<img class="emoticon"src="/images/6.png"/>
+			</div>
+			<div>
+				<img class="emoticon"src="/images/7.png"/>
+			</div>
+			<div>
+				<img class="emoticon"src="/images/8.png"/>
+			</div>
+			<div>
+				<img class="emoticon"src="/images/9.png"/>
+			</div>
+			<div>
+				<img class="emoticon"src="/images/10.png"/>
+			</div>
+			<div>
+				<img class="emoticon"src="/images/11.png"/>
+			</div>
+			<div>
+				<img class="emoticon"src="/images/12.png"/>
+			</div>
+			<div>
+				<img class="emoticon"src="/images/13.png"/>
+			</div>
+			<div>
+				<img class="emoticon"src="/images/14.png"/>
+			</div>
+			<div>
+				<img class="emoticon"src="/images/15.png"/>
+			</div>
+			<div>
+				<img class="emoticon"src="/images/16.png"/>
+			</div>
+			</div>
 		</div>
 		<form id="form" action="">
 			<button id="ask">
-				<img src="./live_help-white-18dp.svg" alt="ask">
+				<img src="./live_help-black-18dp.svg" alt="ask">
 			</button>
 			<input id="input" autocomplete="off"> 
 			</input>
 				<button id="emote">
-					<img src="./insert_emoticon-white-18dp.svg" alt="emote"/>
+					<img src="./insert_emoticon-black-18dp.svg" alt="emote"/>
 				</button>
 				<button>
-					<img id="send" src="./send-white-18dp.svg" alt="send" />
+					<img id="send" src="./send-black-18dp.svg" alt="send" />
 				</button>
 		</form>
 		<script src="/socket.io/socket.io.js"></script>
@@ -148,9 +206,14 @@
 			var ask = document.getElementById('ask')
 			var emote = document.getElementById('emote')
 			var emotes = document.getElementById('emotes')
+			var emoticons = document.querySelectorAll('.emoticon')
 
-			emotes.addEventListener('click', () => {
+			emoticons.forEach((emoticon, idx) => {
+				emoticon.addEventListener('click', () => {
+					socket.emit('emote', idx+1)
+				})
 			})
+
 
 			form.addEventListener('submit', e => {
 				e.preventDefault()
@@ -171,8 +234,6 @@
 				} else {
 					emotes.style.display = 'block'
 				}
-				// e.preventDefault()
-				// socket.emit('emote', 'nini')
 			})
 
 			socket.on('chat message', msg => {
