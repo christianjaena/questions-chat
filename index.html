@@ -4,6 +4,7 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Questions Chat</title>
+		<link rel="icon" type="image/png" href="./images/7.png">
 		<style>
 			body {
 				margin: 0;
@@ -49,7 +50,7 @@
 				border-radius: 15px;
 				margin-right: 15px;
 				overflow-y: scroll;
-				width: 70%;
+				width: 90%;
 				display: none;
 
 			}
@@ -107,8 +108,7 @@
 
 			#grid {
 				display: grid;
-				grid-template-columns: repeat(4, 1fr);
-				grid-template-rows: repeat(4, 1fr);
+				grid-template-columns: repeat(5, 1fr);
 				padding: 15px;
 
 			}
@@ -141,6 +141,9 @@
 				<img class="emoticon"src="/images/4.png"/>
 			</div>
 			<div>
+				<img class="emoticon"src="/images/19.png"/>
+			</div>
+			<div>
 				<img class="emoticon"src="/images/5.png"/>
 			</div>
 			<div>
@@ -153,6 +156,9 @@
 				<img class="emoticon"src="/images/8.png"/>
 			</div>
 			<div>
+				<img class="emoticon"src="/images/17.png"/>
+			</div>
+			<div>
 				<img class="emoticon"src="/images/9.png"/>
 			</div>
 			<div>
@@ -160,6 +166,9 @@
 			</div>
 			<div>
 				<img class="emoticon"src="/images/11.png"/>
+			</div>
+			<div>
+				<img class="emoticon"src="/images/18.png"/>
 			</div>
 			<div>
 				<img class="emoticon"src="/images/12.png"/>
@@ -176,6 +185,9 @@
 			<div>
 				<img class="emoticon"src="/images/16.png"/>
 			</div>
+			<div>
+				<img class="emoticon"src="/images/20.png"/>
+			</div>
 			</div>
 		</div>
 		<form id="form" action="">
@@ -191,88 +203,7 @@
 					<img id="send" src="./send-black-18dp.svg" alt="send" />
 				</button>
 		</form>
-		<script src="/socket.io/socket.io.js"></script>
-		<script>
-			var userName = ''
-			do {
-				userName = prompt('enter username: ')
-			} while (!userName)
-
-			var socket = io()
-			socket.emit('user', userName)
-
-			var form = document.getElementById('form')
-			var input = document.getElementById('input')
-			var ask = document.getElementById('ask')
-			var emote = document.getElementById('emote')
-			var emotes = document.getElementById('emotes')
-			var emoticons = document.querySelectorAll('.emoticon')
-
-			emoticons.forEach((emoticon, idx) => {
-				emoticon.addEventListener('click', () => {
-					socket.emit('emote', {userName, index: idx+1})
-				})
-			})
-
-
-			form.addEventListener('submit', e => {
-				e.preventDefault()
-				if (input.value) {
-					socket.emit('chat message', { userName, message: input.value })
-					input.value = ''
-				}
-			})
-
-			ask.addEventListener('click', e => {
-				e.preventDefault()
-				socket.emit('question')
-			})
-
-			emote.addEventListener('click', e => {
-				if (emotes.style.display === "block") {
-					emotes.style.display = 'none'
-				} else {
-					emotes.style.display = 'block'
-				}
-			})
-
-			socket.on('chat message', msg => {
-				var item = document.createElement('li')
-				item.innerHTML += `<strong>${msg.userName}</strong>:  ${msg.message}`
-				messages.appendChild(item)
-				window.scrollTo(0, document.body.scrollHeight)
-			})
-
-			socket.on('user', userName => {
-				var item = document.createElement('li')
-				item.innerHTML += `<strong>${userName}</strong> has entered the chat.`
-				item.setAttribute('class', 'user')
-				messages.appendChild(item)
-				window.scrollTo(0, document.body.scrollHeight)
-			})
-
-			socket.on('question', question => {
-				var item = document.createElement('li')
-				item.innerHTML += `<strong>${question}</strong>`
-				item.setAttribute('class', 'question')
-				messages.appendChild(item)
-				window.scrollTo(0, document.body.scrollHeight)
-			})
-
-			socket.on('disconnection', userName => {
-				var item = document.createElement('li')
-				item.innerHTML += `<strong>${userName}</strong> has left the chat.`
-				item.setAttribute('class', 'user')
-				messages.appendChild(item)
-				window.scrollTo(0, document.body.scrollHeight)
-			})
-
-			socket.on('img', emote => {
-				var item = document.createElement('li')
-				item.innerHTML += `<strong>${emote.userName}</strong>: <img src="${emote.index}.png" />`
-				messages.appendChild(item)
-				window.scrollTo(0, document.body.scrollHeight)
-			})
-		</script>
+		<script src="/socket.io/socket.io.js" defer></script>
+		<script src="script.js" defer></script>
 	</body>
 </html>
