@@ -16,6 +16,8 @@ var emoticons = document.querySelectorAll('.emoticon')
 emoticons.forEach((emoticon, idx) => {
 	emoticon.addEventListener('click', () => {
 		socket.emit('emote', { userName, index: idx + 1 })
+		window.scrollTo(0, document.body.scrollHeight)
+		emotes.style.display = 'none'
 	})
 })
 
